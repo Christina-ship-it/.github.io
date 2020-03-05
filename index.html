@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="utf-8">
+          
+            <title>Gjestebok</title>
+        
+            <style>
+            
+                
+            </style>
+            <h1 id="heading">Christina's gjesteliste</h1>
+                        <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+        </head>
+        
+<body>
+    
+    
+    <form action="javascript:void(0);">
+        
+        <input type="text" id="txtNavn" placeholder="Navn">
+        <br> <br>
+        <input type="text" id="txtMelding" placeholder="Melding">
+        <br> <br>
+        <input type="button" value="Send inn" id="btsSendInn" onclick="sendInn()">
+        <input submit type="submit" onclick="sendInn(); visDatabase()"value="Send Inn!">
+        
+            <div id = "posts"></div>
+      
+            
+        
+        </form> <br>
+    <div id="svarFelt"></div>
+    </body>
+  <script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAhCjcasL4KLMyi2BDXsNczcQBTxPJjth4",
+    authDomain: "infotek-1aee6.firebaseapp.com",
+    databaseURL: "https://infotek-1aee6.firebaseio.com",
+    projectId: "infotek-1aee6",
+    storageBucket: "infotek-1aee6.appspot.com",
+    messagingSenderId: "420745062557",
+    appId: "1:420745062557:web:194b823f2a930de3460c74"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>      
+        <script>
+            
+  /*          let navn = document.getElementById("txtNavn")
+            let melding = document.getElementById("txtMelding")
+            let knapp = document.getElementById("btsSendInn")
+            
+            function sendInn(){
+                let navn = txtNavn.value
+                let melding = txtMelding.value
+                
+                
+                console.log(`Navn: ${navn} Melding: ${melding}`)
+                
+            }
+    */        
+            let navn = document.getElementById("txtNavn")
+            let melding = document.getElementById("txtMelding")
+            let knapp = document.getElementById("btsSendInn")
+            
+            
+            let db = firebase.database();
+            let besoksbok = db.ref("besoksbok");
+            
+            function sendInn(){
+                
+                var navn_in =document.getElementById("txtNavn").value
+                var beskjed_in = document.getElementById("txtMelding").value
+                var today = new Date();
+                var dateTime = today.getFullYear()+"0"+today.getMonth()+"1"+today.getDate()+""+today.getHours()+""+today.getMinutes()+""+today.getSeconds();
+                
+                
+              let new_object = besoksbok.child(dateTime);
+                 
+            new_object.set({ 
+            navn : navn_in ,
+            beskjed : beskjed_in }
+            );
+        window.alert("beskjed lagt til i database");
+            }
+            
+            function visDatabase(){
+                function visDatabase_hjelpefunksjon(snapshot){
+                    let timestamp = snapshot.key;
+                    let navn_og_tekst  = snapshot.val();
+                    posts.innerHTML += `<div>Navn: ${navn_og_tekst.navn} - Tekst: ${navn_og_tekst.Melding}</div>`;
+                }
+            besoksbok.on("child_added", visDatabase_hjelpefunksjon)
+             }
+        </script>
+     
+</html>
